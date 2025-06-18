@@ -86,7 +86,6 @@ def predict():
         img = Image.open(file).convert('RGB')
         img_array = np.array(img)
 
-        # Ensure uploads directory exists within static folder
         uploads_dir = os.path.join(app.static_folder, 'uploads')
         os.makedirs(uploads_dir, exist_ok=True)
         image_path = os.path.join('uploads', secure_filename(file.filename))
@@ -109,9 +108,11 @@ def predict():
         if prediction.item() == 1:
             img_array = cv2.rectangle(img_array, (50, 50), (150, 150), (0, 255, 0), 2)
             output_path = os.path.join(app.static_folder, 'output.jpg')
+            print(f"Attempting to save output to: {output_path}")
             try:
                 cv2.imwrite(output_path, cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR))
                 print(f"Saved output image to {output_path}. File size: {os.path.getsize(output_path)} bytes.")
+                print(f"File exists: {os.path.exists(output_path)}")
             except Exception as e:
                 print(f"Error saving output image: {e}")
                 return jsonify({'error': f"Failed to save output image: {e}"}), 500
@@ -137,6 +138,7 @@ def predict():
     except Exception as e:
         print(f"Error in predict route: {e}")
         return jsonify({'error': str(e)}), 500
+
 @app.route('/history')
 def history():
     print("Accessed history route.")
