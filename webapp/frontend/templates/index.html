@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+     <html lang="en">
+     <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Crack Detection in Buildings</title>
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+     </head>
+     <body>
+         <div class="container">
+             <h1 class="mt-5">Crack Detection in Buildings</h1>
+             <p>Upload an image of a concrete surface to detect and localize cracks.</p>
+             <form id="upload-form" enctype="multipart/form-data">
+                 <div class="mb-3">
+                     <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                 </div>
+                 <button type="submit" class="btn btn-primary">Analyze Image</button>
+             </form>
+             <div id="result" class="mt-4"></div>
+             <img id="output-image" class="img-fluid mt-3" style="display:none;">
+             <a href="/history" class="btn btn-secondary mt-3">View Prediction History</a>
+         </div>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+     </body>
+     </html>
