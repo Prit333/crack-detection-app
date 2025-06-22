@@ -1,6 +1,5 @@
-print("Starting app.py...")
 from flask import Flask, request, render_template, jsonify, url_for
-print("Imported Flask successfully.")
+print("Starting app.py...")
 from flask_sqlalchemy import SQLAlchemy
 print("Imported Flask-SQLAlchemy successfully.")
 from werkzeug.utils import secure_filename
@@ -144,6 +143,19 @@ def history():
     print("Accessed history route.")
     predictions = Prediction.query.order_by(Prediction.upload_date.desc()).all()
     return render_template('history.html', predictions=predictions)
+
+@app.route('/clear_history', methods=['POST'])
+def clear_history():
+    print("Accessed clear_history route.")
+    try:
+        with app.app_context():
+            db.session.query(Prediction).delete()
+            db.session.commit()
+        print("Prediction history cleared successfully.")
+        return jsonify({'message': 'Prediction history cleared successfully.'})
+    except Exception as e:
+        print(f"Error clearing history: {e}")
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     print("Starting Flask server...")
